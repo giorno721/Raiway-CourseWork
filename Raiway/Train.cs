@@ -99,6 +99,56 @@ namespace Railway
 
             return result;
         }
+        public static List<Train> SearchThroughStations(List<Train> trains, string enteredText)
+        {
+            var result = trains
+                .Where(train => train.StartStation.Equals(enteredText, StringComparison.OrdinalIgnoreCase) ||
+                                               train.EndStation.Equals(enteredText, StringComparison.OrdinalIgnoreCase) ||
+                                                                              train.IntermediateStations.Contains(enteredText, StringComparer.OrdinalIgnoreCase))
+                .ToList();
+            return result;
+        }
+        //mthd 
+        public static List<Train> GroupTrains(List<Train> trains)
+        {
+            List<Train> groupedTrains = new List<Train>();
+
+            foreach (Train train1 in trains)
+            {
+                bool isGrouped = false;
+
+                foreach (Train train2 in groupedTrains)
+                {
+                    if (train1.Number == train2.Number)
+                    {
+                        if (train1.IntermediateStations.Intersect(train2.IntermediateStations).Any() &&
+                        (train1.IntermediateStations.Contains(train2.StartStation) || train1.IntermediateStations.Contains(train2.EndStation)))
+                        {
+                            isGrouped = true;
+                            train2.StartStation = train1.StartStation;
+                            train2.IntermediateStations = train2.IntermediateStations.Union(train1.IntermediateStations).ToList();
+                            train2.EndStation = train1.EndStation;
+                            train2.Distance = train1.Distance;
+                            train2.DepartureTime = train1.DepartureTime;
+                            train2.ArrivalTime = train1.ArrivalTime;
+                            break;
+                        }
+                        else
+                        {
+                            isGrouped = true;
+                        }
+                    }
+                }
+
+                if (!isGrouped)
+                {
+                    groupedTrains.Add(train1);
+                }
+            }
+            return groupedTrains;
+        }
+
+
         public static List<Train> getListOfTrains(List<Train> trains)
         {
             return trains;

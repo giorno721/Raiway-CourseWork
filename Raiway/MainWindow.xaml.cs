@@ -62,5 +62,27 @@ namespace Railway
             };
             searchArriveTrainWindow.Show();
         }
+
+        private void getTrainsThroughStationButton_Checked(object sender, RoutedEventArgs e)
+        {
+            SearchTrainWindow searchTrainWindow = new SearchTrainWindow(trainDataGrid, trains);
+            searchTrainWindow.ButtonClickEvent += (s, args) =>
+            {
+                trains = searchTrainWindow.getList();
+            };
+            searchTrainWindow.Show();
+        }
+
+        private void groupTrainsButton_Checked(object sender, RoutedEventArgs e)
+        {
+            trains = Train.GroupTrains(trains);
+            Train.DisplayListOfTrainsInDataGrid(trains, trainDataGrid);
+        }
+
+        private void getFileListButton_Checked(object sender, RoutedEventArgs e)
+        {
+            trains = Train.ReadTrainsFromFile();
+            Train.DisplayListOfTrainsInDataGrid(trains, trainDataGrid);
+        }
     }
 }

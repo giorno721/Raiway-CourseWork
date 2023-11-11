@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Railway"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="1000"
+        Title="MainWindow" Height="550" Width="1000"
          WindowStyle="None"
         ResizeMode="NoResize"
          Background="Transparent" 
@@ -136,8 +136,9 @@
                     <RadioButton x:Name="sortByAverageSpeedStationButton" Grid.Row="1" Content="Сортувати за середньою  &#xA;швидкістю" Style = "{StaticResource RadioButtonStyle}" Checked="sortByAverageSpeedStationButton_Checked" />
                     <RadioButton x:Name="getTrainsLeaveStationButton" Grid.Row="1" Content="Визначити, які поїзди  &#xA;відправляються з заданої &#xA;станції у заданої період &#xA;часу" Style = "{StaticResource RadioButtonStyle}" Checked="getTrainsLeaveStationButton_Checked" />
                     <RadioButton x:Name="getTrainsArriveStationButton" Grid.Row="1" Content="Визначити, які поїзди  &#xA;прибувають у задану &#xA;станцію у заданий період &#xA;часу" Style = "{StaticResource RadioButtonStyle}" Checked="getTrainsArriveStationButton_Checked" />
-                    <RadioButton x:Name="getTrainsThroughStationButton" Grid.Row="1" Content="Визначити № поїздів, які  &#xA;курсують через задану &#xA;станцію" Style = "{StaticResource RadioButtonStyle}" />
-                    <RadioButton x:Name="groupTrainsButton" Grid.Row="1" Content="Згрупувати поїзди" Style = "{StaticResource RadioButtonStyle}" />
+                    <RadioButton x:Name="getTrainsThroughStationButton" Grid.Row="1" Content="Визначити № поїздів, які  &#xA;курсують через задану &#xA;станцію" Style = "{StaticResource RadioButtonStyle}" Checked="getTrainsThroughStationButton_Checked" />
+                    <RadioButton x:Name="groupTrainsButton" Grid.Row="1" Content="Згрупувати поїзди" Style = "{StaticResource RadioButtonStyle}" Checked="groupTrainsButton_Checked" />
+                    <RadioButton x:Name="getFileListButton" Grid.Row="1" Content="Завантажити розклад із  &#xA;файлу" Style = "{StaticResource RadioButtonStyle}" Checked="getFileListButton_Checked" />
                 </StackPanel>
             </Border>
         </Grid>

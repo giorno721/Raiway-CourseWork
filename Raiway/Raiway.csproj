@@ -62,6 +62,9 @@
     <Compile Include="SearchLeaveTrainWindow.xaml.cs">
       <DependentUpon>SearchLeaveTrainWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SearchTrainWindow.xaml.cs">
+      <DependentUpon>SearchTrainWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Train.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -80,6 +83,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SearchLeaveTrainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SearchTrainWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
