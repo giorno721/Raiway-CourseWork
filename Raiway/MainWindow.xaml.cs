@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Raiway;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -42,7 +43,24 @@ namespace Railway
 
         private void getTrainsLeaveStationButton_Checked(object sender, RoutedEventArgs e)
         {
+            SearchLeaveTrainWindow searchLeaveTrainWindow = new SearchLeaveTrainWindow(trainDataGrid,trains);
+            searchLeaveTrainWindow.ButtonClickEvent += (s, args) =>
+            {
+                
+                trains = searchLeaveTrainWindow.getList();
+            };
+            searchLeaveTrainWindow.Show();
+          
+        }
 
+        private void getTrainsArriveStationButton_Checked(object sender, RoutedEventArgs e)
+        {
+            SearchArriveTrainWindow searchArriveTrainWindow = new SearchArriveTrainWindow(trainDataGrid, trains);
+            searchArriveTrainWindow.ButtonClickEvent += (s, args) =>
+            {
+                trains = searchArriveTrainWindow.getList();
+            };
+            searchArriveTrainWindow.Show();
         }
     }
 }

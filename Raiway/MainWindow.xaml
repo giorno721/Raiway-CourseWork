@@ -135,7 +135,7 @@
                     <RadioButton x:Name="sortByStartStationButton" Grid.Row="1"  Content="Сортувати за назвою станції &#xA;відправлення" Style = "{StaticResource RadioButtonStyle}" Checked="sortByStartStationButton_Checked"/>
                     <RadioButton x:Name="sortByAverageSpeedStationButton" Grid.Row="1" Content="Сортувати за середньою  &#xA;швидкістю" Style = "{StaticResource RadioButtonStyle}" Checked="sortByAverageSpeedStationButton_Checked" />
                     <RadioButton x:Name="getTrainsLeaveStationButton" Grid.Row="1" Content="Визначити, які поїзди  &#xA;відправляються з заданої &#xA;станції у заданої період &#xA;часу" Style = "{StaticResource RadioButtonStyle}" Checked="getTrainsLeaveStationButton_Checked" />
-                    <RadioButton x:Name="getTrainsArriveStationButton" Grid.Row="1" Content="Визначити, які поїзди  &#xA;прибувають у задану &#xA;станцію у заданий період &#xA;часу" Style = "{StaticResource RadioButtonStyle}" />
+                    <RadioButton x:Name="getTrainsArriveStationButton" Grid.Row="1" Content="Визначити, які поїзди  &#xA;прибувають у задану &#xA;станцію у заданий період &#xA;часу" Style = "{StaticResource RadioButtonStyle}" Checked="getTrainsArriveStationButton_Checked" />
                     <RadioButton x:Name="getTrainsThroughStationButton" Grid.Row="1" Content="Визначити № поїздів, які  &#xA;курсують через задану &#xA;станцію" Style = "{StaticResource RadioButtonStyle}" />
                     <RadioButton x:Name="groupTrainsButton" Grid.Row="1" Content="Згрупувати поїзди" Style = "{StaticResource RadioButtonStyle}" />
                 </StackPanel>

@@ -7,7 +7,7 @@ using System.Windows.Controls;
 
 namespace Railway
 {
-    internal class Train
+    public class Train
     {
         public int Number { get; set; }
         public string StartStation { get; set; }
@@ -77,6 +77,30 @@ namespace Railway
         public static List<Train> SortTrainsByAverageSpeed(List<Train> trains)
         {
             trains.Sort((train1, train2) => getAverageSpeed(train1).CompareTo(getAverageSpeed(train2)));
+            return trains;
+        }
+        public static List<Train> SearchLeaveTrainsThroughTime(List<Train> trains, string enteredText, DateTime startDateTime, DateTime endDateTime)
+        {
+            var result = trains
+                .Where(train => train.StartStation.Equals(enteredText, StringComparison.OrdinalIgnoreCase) &&
+                                train.DepartureTime >= startDateTime &&
+                                train.DepartureTime <= endDateTime)
+                .ToList();
+
+            return result;
+        }
+        public static List<Train> SearchArriveTrainsThroughTime(List<Train> trains, string enteredText, DateTime startDateTime, DateTime endDateTime)
+        {
+            var result = trains
+                .Where(train => train.EndStation.Equals(enteredText, StringComparison.OrdinalIgnoreCase) &&
+                                train.DepartureTime >= startDateTime &&
+                                train.DepartureTime <= endDateTime)
+                .ToList();
+
+            return result;
+        }
+        public static List<Train> getListOfTrains(List<Train> trains)
+        {
             return trains;
         }
     }
