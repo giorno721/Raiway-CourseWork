@@ -28,42 +28,6 @@ namespace Railway
         }
         public Train() { }
 
-        public static List<Train> ReadTrainsFromFile()
-        {
-            List<Train> trains = new List<Train>();
-            string[] lines = System.IO.File.ReadAllLines(@"C:\Users\Roman PC\Desktop\Палітєх 2-й курс\Курсач\Raiway\Raiway\bin\Debug\trains.txt");
-            foreach (string line in lines)
-            {
-                string[] words = line.Split(' ');
-                Train train = new Train();
-                train.Number = Convert.ToInt32(words[0]);
-                train.StartStation = words[1];
-                train.EndStation = words[2];
-                train.IntermediateStations = words[3].Split(',').ToList();
-                string[] departureDateTime = words[4].Split('.');
-                train.DepartureTime = new DateTime(
-                    Convert.ToInt32(departureDateTime[0]),
-                    Convert.ToInt32(departureDateTime[1]),
-                    Convert.ToInt32(departureDateTime[2]),
-                    Convert.ToInt32(departureDateTime[3]),
-                    Convert.ToInt32(departureDateTime[4]),
-                    Convert.ToInt32(departureDateTime[5])
-                );
-
-                string[] arrivalDateTime = words[5].Split('.');
-                train.ArrivalTime = new DateTime(
-                    Convert.ToInt32(arrivalDateTime[0]),
-                    Convert.ToInt32(arrivalDateTime[1]),
-                    Convert.ToInt32(arrivalDateTime[2]),
-                    Convert.ToInt32(arrivalDateTime[3]),
-                    Convert.ToInt32(arrivalDateTime[4]),
-                    Convert.ToInt32(arrivalDateTime[5])
-                );
-                train.Distance = Convert.ToDouble(words[6]);
-                trains.Add(train);
-            }
-            return trains;
-        }
         public static void DisplayListOfTrainsInDataGrid(List<Train> trains, DataGrid trainDataGrid)
         {
             trainDataGrid.ItemsSource = null;
@@ -108,7 +72,6 @@ namespace Railway
                 .ToList();
             return result;
         }
-        //mthd 
         public static List<Train> GroupTrains(List<Train> trains)
         {
             List<Train> groupedTrains = new List<Train>();

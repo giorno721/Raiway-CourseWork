@@ -1,4 +1,5 @@
-﻿using Raiway;
+﻿using Microsoft.Win32;
+using Raiway;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.IO;
+using System.Windows.Threading;
 
 namespace Railway
 {
@@ -22,11 +25,25 @@ namespace Railway
     public partial class MainWindow : Window
     {
         private List<Train> trains;
+        string fileReadPath = System.IO.Path.Combine(@"C:\Users\Roman PC\Desktop\Палітєх 2-й курс\Курсач\Raiway\Raiway\bin\Debug", "trainsRead.txt");
+
+
         public MainWindow()
         {
-            trains = Train.ReadTrainsFromFile();
+            FileManager fileManager = new FileManager(trains,fileReadPath);
+            trains = fileManager.ReadList();
             InitializeComponent();
             Train.DisplayListOfTrainsInDataGrid(trains, trainDataGrid);
+
+            DispatcherTimer timer = new DispatcherTimer();
+            timer.Tick += new EventHandler(UpdateTimer_Tick);
+            timer.Interval = new TimeSpan(0, 0, 1);
+            timer.Start();
+        }
+
+        private void UpdateTimer_Tick(object sender, EventArgs e)
+        {
+            ClockTextBox.Text = DateTime.Now.ToString("G");
         }
 
         private void sortByStartStationButton_Checked(object sender, RoutedEventArgs e)
@@ -78,11 +95,79 @@ namespace Railway
             trains = Train.GroupTrains(trains);
             Train.DisplayListOfTrainsInDataGrid(trains, trainDataGrid);
         }
+     
 
-        private void getFileListButton_Checked(object sender, RoutedEventArgs e)
+        private void addTrainButton_Checked(object sender, RoutedEventArgs e)
         {
-            trains = Train.ReadTrainsFromFile();
-            Train.DisplayListOfTrainsInDataGrid(trains, trainDataGrid);
+            AddRouteWindow addRouteWindow = new AddRouteWindow();
+            addRouteWindow.ButtonClickEvent += (s, args) =>
+            {
+                Train train = addRouteWindow.NewTrain;
+                trains.Add(train);
+                Train.DisplayListOfTrainsInDataGrid(trains, trainDataGrid);
+            };
+            addRouteWindow.Show();
+        }
+
+        private void openListFromFile_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            if(openFileDialog.ShowDialog() == true)
+            {
+                string file_name = openFileDialog.FileName;
+                FileManager fileManager = new FileManager(trains, file_name);
+                trains = fileManager.ReadList();
+                Train.DisplayListOfTrainsInDataGrid(trains, trainDataGrid);
+            }
+         
+        }
+
+        private void saveListToFile_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            if (openFileDialog.ShowDialog() == true)
+            {
+                string file_name = openFileDialog.FileName;
+                FileManager fileManager = new FileManager(trains, file_name,0);
+                fileManager.PrintList();
+            }
+        }
+
+        private void exit_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void OpenCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            openListFromFile_Click(sender, e);
+        }
+
+        private void SaveAsCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            saveListToFile_Click((object)sender, e);
+        }
+
+        private void CloseCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            exit_Click(sender, e);
+        }
+
+
+        private void info_Click(object sender, RoutedEventArgs e)
+        {
+            InformationMenu informationMenu = new InformationMenu();
+            informationMenu.Show();
+        }
+
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            exit_Click(sender, e);
+        }
+
+        private void MinimizeButton_Click(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Minimized;
         }
     }
 }

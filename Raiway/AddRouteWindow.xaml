@@ -1,0 +1,121 @@
+﻿<Window x:Class="Raiway.AddRouteWindow"
+       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        mc:Ignorable="d"
+        Title="Add Route" Height="700" Width="600"
+        WindowStyle="SingleBorderWindow">
+    <Window.Resources>
+        <Style TargetType="TextBox" x:Key="TextBoxStyle">
+            <Setter Property="Background" Value="#Fff"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="BorderBrush" Value="#3498db"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontFamily" Value="Arial"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="10">
+                            <ScrollViewer x:Name="PART_ContentHost" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsFocused" Value="True">
+                    <Setter Property="BorderBrush" Value="#2980b9"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="Button" x:Key="ButtonStyle">
+            <Setter Property="Background" Value="#2C3E50"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Height" Value="35"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="BorderBrush" Value="#3498db"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontFamily" Value="Arial"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="10">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="BorderBrush" Value="#2980b9"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="TextBlock" x:Key="TextBlockStyle">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontFamily" Value="Arial"/>
+            <Setter Property="Margin" Value="5"/>
+        </Style>
+    </Window.Resources>
+   
+    <Grid>
+        <Border Background="#0c161a">
+            <StackPanel Margin="20">
+                <TextBlock Text="Номер:" Style="{StaticResource TextBlockStyle}"/>
+                <TextBox  x:Name="NumberTextBox" Style="{StaticResource TextBoxStyle}" />
+
+                <TextBlock Text="Початкова станція:" Style="{StaticResource TextBlockStyle}"/>
+                <TextBox x:Name="StartStationTextBox" Style="{StaticResource TextBoxStyle}" />
+
+                <TextBlock Text="Кінцева станція:" Style="{StaticResource TextBlockStyle}"/>
+                <TextBox  x:Name="EndStationTextBox" Style="{StaticResource TextBoxStyle}" />
+
+                <TextBlock Text="Проміжні станції:" Style="{StaticResource TextBlockStyle}"/>
+                <TextBox  x:Name="IntermediateStationsTextBox" Style="{StaticResource TextBoxStyle}" />
+
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Час відправлення:" Style="{StaticResource TextBlockStyle}" />
+                    <DatePicker VerticalAlignment="Center" x:Name="DepartureDatePicker"/>
+                    <TextBox x:Name="DepartureHourTextBox" Style="{StaticResource TextBoxStyle}" Width="50" />
+                    <TextBlock Text=":" Style="{StaticResource TextBlockStyle}" />
+                    <TextBox x:Name="DepartureMinuteTextBox" Style="{StaticResource TextBoxStyle}" Width="50" />
+                    <TextBlock Text=":" Style="{StaticResource TextBlockStyle}" />
+                    <TextBox x:Name="DepartureSecondTextBox" Style="{StaticResource TextBoxStyle}" Width="50" />
+
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Час прибуття:" Style="{StaticResource TextBlockStyle}" />
+                    <DatePicker VerticalAlignment="Center" x:Name="ArrivalDatePicker" />
+                    <TextBox x:Name="ArrivalHourTextBox" Style="{StaticResource TextBoxStyle}" Width="50" />
+                    <TextBlock Text=":" Style="{StaticResource TextBlockStyle}" />
+                    <TextBox x:Name="ArrivalMinuteTextBox" Style="{StaticResource TextBoxStyle}" Width="50" />
+                    <TextBlock Text=":" Style="{StaticResource TextBlockStyle}" />
+                    <TextBox x:Name="ArrivalSecondTextBox" Style="{StaticResource TextBoxStyle}" Width="50" />
+                </StackPanel>
+             
+                <TextBlock  Text="Відстань:" Style="{StaticResource TextBlockStyle}"/>
+                <TextBox x:Name="DistanceTextBox" Style="{StaticResource TextBoxStyle}" />
+
+                <Button Content="Add Route" Style="{StaticResource ButtonStyle}" Click="Button_Click" />
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>
