@@ -25,7 +25,8 @@ namespace Railway
     public partial class MainWindow : Window
     {
         private List<Train> trains;
-        string fileReadPath = System.IO.Path.Combine(@"C:\Users\Roman PC\Desktop\Палітєх 2-й курс\Курсач\Raiway\Raiway\bin\Debug", "trainsRead.txt");
+       // string fileReadPath = System.IO.Path.Combine(@"C:\Users\Roman PC\Desktop\Палітєх 2-й курс\Курсач\Raiway\Raiway\bin\Debug", "trainsRead.txt");
+        string fileReadPath = System.IO.Path.Combine(@"C:\Users\Roman PC\Source\Repos\Raiway-CourseWork\Raiway\bin\Debug", "trainsRead.txt");
 
 
         public MainWindow()
