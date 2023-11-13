@@ -148,7 +148,7 @@
                 <ColumnDefinition Width="2.9*"/>
                 <ColumnDefinition Width="100"/>
             </Grid.ColumnDefinitions>
-            <TextBox Grid.Column="1" Text="Розклад руху" Style="{StaticResource TextBoxStyle}"/>
+            <TextBox Grid.Column="1" Text="Розклад руху" Style="{StaticResource TextBoxStyle}" IsReadOnly="True" />
             <!--<TextBox Grid.Column="0" Text="Функції" Style="{StaticResource TextBoxStyle}"/>-->
             <DataGrid x:Name="trainDataGrid"  AutoGenerateColumns="False" Grid.Row="1" Grid.Column="1" Template="{StaticResource DataGridControlTemplate}" Style="{StaticResource DataGridStyle}" Grid.ColumnSpan="2" >
                 <DataGrid.Columns>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Railway
 {
@@ -11,7 +12,10 @@ namespace Railway
         public static List<Train> Sort(List<Train> trains)
         {
             if (trains.Count <= 1)
+            {             
                 return trains;
+            }    
+                
 
             int middle = trains.Count / 2;
             List<Train> left = new List<Train>();

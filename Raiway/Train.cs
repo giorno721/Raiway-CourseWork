@@ -30,6 +30,16 @@ namespace Railway
 
         public static void DisplayListOfTrainsInDataGrid(List<Train> trains, DataGrid trainDataGrid)
         {
+            if(trains == null)
+            {
+                System.Windows.MessageBox.Show("Розклад пустий!", "Помилка", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                return;
+            }
+            if(trains.Count == 0)
+            {
+                System.Windows.MessageBox.Show("Розклад пустий!", "Помилка", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                return;
+            }
             trainDataGrid.ItemsSource = null;
             trainDataGrid.ItemsSource = trains;
         }
@@ -45,6 +55,22 @@ namespace Railway
         }
         public static List<Train> SearchLeaveTrainsThroughTime(List<Train> trains, string enteredText, DateTime startDateTime, DateTime endDateTime)
         {
+            if(enteredText == "" || enteredText == " ")
+            {
+                System.Windows.MessageBox.Show("Введіть назву станції!", "Помилка", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                return null;
+            }
+            if (startDateTime == null || endDateTime == null)
+            {
+                System.Windows.MessageBox.Show("Введіть дату!", "Помилка", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                return null;
+            }
+            if(startDateTime > endDateTime)
+            {
+                System.Windows.MessageBox.Show("Дата відправлення не може бути пізніше за дату прибуття!", "Помилка", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                return null;
+            }
+            
             var result = trains
                 .Where(train => train.StartStation.Equals(enteredText, StringComparison.OrdinalIgnoreCase) &&
                                 train.DepartureTime >= startDateTime &&
