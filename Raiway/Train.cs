@@ -16,6 +16,7 @@ namespace Railway
         public DateTime DepartureTime { get; set; }
         public DateTime ArrivalTime { get; set; }
         public double Distance { get; set; }
+        public double AverageSpeed { get; set; }
         public Train(int number, string startStation, string endStation, List<string> intermediateStations, DateTime departureTime, DateTime arrivalTime, double distance)
         {
             Number = number;
@@ -25,114 +26,225 @@ namespace Railway
             DepartureTime = departureTime;
             ArrivalTime = arrivalTime;
             Distance = distance;
+            AverageSpeed = 0;
         }
         public Train() { }
 
         public static void DisplayListOfTrainsInDataGrid(List<Train> trains, DataGrid trainDataGrid)
         {
-            if(trains == null)
-            {
-                System.Windows.MessageBox.Show("Розклад пустий!", "Помилка", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
-                return;
-            }
-            if(trains.Count == 0)
-            {
-                System.Windows.MessageBox.Show("Розклад пустий!", "Помилка", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
-                return;
-            }
             trainDataGrid.ItemsSource = null;
             trainDataGrid.ItemsSource = trains;
         }
+
         public static double getAverageSpeed(Train train)
         {
-            return train.Distance / (train.DepartureTime.Hour + (double)train.DepartureTime.Minute / 60);
+            train.AverageSpeed = train.Distance/((train.ArrivalTime - train.DepartureTime).TotalHours);
+            train.AverageSpeed = Math.Round(train.AverageSpeed, 2);
+            return train.AverageSpeed;
         }
 
         public static List<Train> SortTrainsByAverageSpeed(List<Train> trains)
         {
-            trains.Sort((train1, train2) => getAverageSpeed(train1).CompareTo(getAverageSpeed(train2)));
+            try
+            {
+                if (trains == null || trains.Count == 0)
+                {
+                    throw new InvalidOperationException("Розклад пустий!");
+                }
+                trains.Sort((train1, train2) => getAverageSpeed(train1).CompareTo(getAverageSpeed(train2)));
+            }
+            catch (InvalidOperationException ex)
+            {
+                System.Windows.MessageBox.Show(ex.Message, "Помилка", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show("Помилка: " + ex.Message, "Помилка", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+            }          
             return trains;
         }
         public static List<Train> SearchLeaveTrainsThroughTime(List<Train> trains, string enteredText, DateTime startDateTime, DateTime endDateTime)
         {
-            if(enteredText == "" || enteredText == " ")
+            List<Train> copyOfTrains = trains;
+            var result = new List<Train>();
+            try
             {
-                System.Windows.MessageBox.Show("Введіть назву станції!", "Помилка", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
-                return null;
+                if (trains == null || trains.Count == 0)
+                {
+                    throw new InvalidOperationException("Розклад пустий!");
+                }
+                if(enteredText == null || enteredText == "" || enteredText == " ")
+                {
+                    throw new InvalidOperationException("Поле початкової станції пусте!");
+                }
+                if (startDateTime.ToString() == "01.01.0001 0:00:00" || endDateTime.ToString() == "31.12.9999 23:59:59")
+                {
+                    throw new InvalidOperationException("Поле дати пусте!");
+                }
+                if (startDateTime == (DateTime)endDateTime || startDateTime > endDateTime) 
+                {
+                    throw new InvalidOperationException("Невірно введено дату!");
+                }
+                result = trains
+              .Where(train => train.StartStation.Equals(enteredText, StringComparison.OrdinalIgnoreCase) &&
+                              train.DepartureTime >= startDateTime &&
+                              train.DepartureTime <= endDateTime)
+              .ToList();
+                if(result.Count == 0) 
+                {
+                    throw new InvalidOperationException("Потягів із такими параметрами немає!");                
+                }
             }
-            if (startDateTime == null || endDateTime == null)
+            catch (InvalidOperationException ex)
             {
-                System.Windows.MessageBox.Show("Введіть дату!", "Помилка", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
-                return null;
+                System.Windows.MessageBox.Show(ex.Message, "Помилка", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                return copyOfTrains;
             }
-            if(startDateTime > endDateTime)
+            catch (Exception ex)
             {
-                System.Windows.MessageBox.Show("Дата відправлення не може бути пізніше за дату прибуття!", "Помилка", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
-                return null;
+                System.Windows.MessageBox.Show("Помилка: " + ex.Message, "Помилка", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                return copyOfTrains;
             }
-            
-            var result = trains
-                .Where(train => train.StartStation.Equals(enteredText, StringComparison.OrdinalIgnoreCase) &&
-                                train.DepartureTime >= startDateTime &&
-                                train.DepartureTime <= endDateTime)
-                .ToList();
-
             return result;
         }
         public static List<Train> SearchArriveTrainsThroughTime(List<Train> trains, string enteredText, DateTime startDateTime, DateTime endDateTime)
         {
-            var result = trains
-                .Where(train => train.EndStation.Equals(enteredText, StringComparison.OrdinalIgnoreCase) &&
-                                train.DepartureTime >= startDateTime &&
-                                train.DepartureTime <= endDateTime)
-                .ToList();
+            List<Train> copyOfTrains = new List<Train>(trains);
+            var result = new List<Train>();
+            try
+            {
+                if (trains == null || trains.Count == 0)
+                {
+                    throw new InvalidOperationException("Розклад пустий!");
+                }
+                if (enteredText == null || enteredText.Trim() == "")
+                {
+                    throw new InvalidOperationException("Поле кінцевої станції пусте!");
+                }
+                if (startDateTime == DateTime.MinValue || endDateTime == DateTime.MaxValue)
+                {
+                    throw new InvalidOperationException("Поле дати пусте!");
+                }
+                if (startDateTime >= endDateTime)
+                {
+                    throw new InvalidOperationException("Невірно введено дату!");
+                }
 
+                result = trains
+                    .Where(train => train.EndStation.Equals(enteredText, StringComparison.OrdinalIgnoreCase) &&
+                                    train.ArrivalTime >= startDateTime &&
+                                    train.ArrivalTime <= endDateTime)
+                    .ToList();
+
+                if (result.Count == 0)
+                {
+                    throw new InvalidOperationException("Потягів із такими параметрами немає!");
+                }
+            }
+            catch (InvalidOperationException ex)
+            {
+                System.Windows.MessageBox.Show(ex.Message, "Помилка", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                return copyOfTrains;
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show("Помилка: " + ex.Message, "Помилка", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                return copyOfTrains;
+            }
             return result;
         }
+
         public static List<Train> SearchThroughStations(List<Train> trains, string enteredText)
         {
-            var result = trains
+            List<Train> copyOfTrains = new List<Train>(trains);
+            var result = new List<Train>();
+            try
+            {
+                if (trains == null || trains.Count == 0)
+                {
+                    throw new InvalidOperationException("Розклад пустий!");
+                }
+                if (enteredText == null || enteredText.Trim() == "")
+                {
+                    throw new InvalidOperationException("Поле станції пусте!");
+                }
+                result = trains
                 .Where(train => train.StartStation.Equals(enteredText, StringComparison.OrdinalIgnoreCase) ||
                                                train.EndStation.Equals(enteredText, StringComparison.OrdinalIgnoreCase) ||
                                                                               train.IntermediateStations.Contains(enteredText, StringComparer.OrdinalIgnoreCase))
                 .ToList();
+                if (result.Count == 0)
+                {
+                    throw new InvalidOperationException("Потягів із такими параметрами немає!");
+                }
+            }
+            catch (InvalidOperationException ex)
+            {
+                System.Windows.MessageBox.Show(ex.Message, "Помилка", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                return copyOfTrains;
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show("Помилка: " + ex.Message, "Помилка", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                return copyOfTrains;
+            }
+         
+
             return result;
         }
         public static List<Train> GroupTrains(List<Train> trains)
         {
             List<Train> groupedTrains = new List<Train>();
+            List<Train> copyOfTrains = trains;
 
-            foreach (Train train1 in trains)
+            try
             {
-                bool isGrouped = false;
-
-                foreach (Train train2 in groupedTrains)
+                if (trains == null || trains.Count == 0)
                 {
-                    if (train1.Number == train2.Number)
+                    throw new InvalidOperationException("Розклад пустий!");
+                }
+                foreach (Train train1 in trains)
+                {
+                    bool isGrouped = false;
+
+                    foreach (Train train2 in groupedTrains)
                     {
-                        if (train1.IntermediateStations.Intersect(train2.IntermediateStations).Any() &&
-                        (train1.IntermediateStations.Contains(train2.StartStation) || train1.IntermediateStations.Contains(train2.EndStation)))
+                        if (train1.Number == train2.Number)
                         {
-                            isGrouped = true;
-                            train2.StartStation = train1.StartStation;
-                            train2.IntermediateStations = train2.IntermediateStations.Union(train1.IntermediateStations).ToList();
-                            train2.EndStation = train1.EndStation;
-                            train2.Distance = train1.Distance;
-                            train2.DepartureTime = train1.DepartureTime;
-                            train2.ArrivalTime = train1.ArrivalTime;
-                            break;
-                        }
-                        else
-                        {
-                            isGrouped = true;
+                            if (train1.IntermediateStations.Intersect(train2.IntermediateStations).Any() &&
+                            (train1.IntermediateStations.Contains(train2.StartStation) || train1.IntermediateStations.Contains(train2.EndStation)))
+                            {
+                                isGrouped = true;
+                                train2.StartStation = train1.StartStation;
+                                train2.IntermediateStations = train2.IntermediateStations.Union(train1.IntermediateStations).ToList();
+                                train2.EndStation = train1.EndStation;
+                                train2.Distance = train1.Distance;
+                                train2.DepartureTime = train1.DepartureTime;
+                                train2.ArrivalTime = train1.ArrivalTime;
+                                break;
+                            }
+                            else
+                            {
+                                isGrouped = true;
+                            }
                         }
                     }
-                }
 
-                if (!isGrouped)
-                {
-                    groupedTrains.Add(train1);
+                    if (!isGrouped)
+                    {
+                        groupedTrains.Add(train1);
+                    }
                 }
+            }
+            catch (InvalidOperationException ex)
+            {
+                System.Windows.MessageBox.Show(ex.Message, "Помилка", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                return copyOfTrains;
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show("Помилка: " + ex.Message, "Помилка", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                return copyOfTrains;
             }
             return groupedTrains;
         }

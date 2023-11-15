@@ -12,10 +12,9 @@ namespace Railway
         public static List<Train> Sort(List<Train> trains)
         {
             if (trains.Count <= 1)
-            {             
+            {
                 return trains;
-            }    
-                
+            }
 
             int middle = trains.Count / 2;
             List<Train> left = new List<Train>();
@@ -33,10 +32,10 @@ namespace Railway
             return Merge(left, right);
         }
 
+
         private static List<Train> Merge(List<Train> left, List<Train> right)
         {
             List<Train> result = new List<Train>();
-
             while (left.Count > 0 || right.Count > 0)
             {
                 if (left.Count > 0 && right.Count > 0)

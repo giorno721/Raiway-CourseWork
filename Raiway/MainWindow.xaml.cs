@@ -49,13 +49,28 @@ namespace Railway
 
         private void sortByStartStationButton_Checked(object sender, RoutedEventArgs e)
         {
+            try
+            {
+                if (trains == null || trains.Count == 0)
+                {
+                    throw new InvalidOperationException("Розклад пустий!");
+                }
+            }
+            catch (InvalidOperationException ex)
+            {
+                System.Windows.MessageBox.Show(ex.Message, "Помилка", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show("Помилка: " + ex.Message, "Помилка", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+            }
             trains = MergeSort.Sort(trains);
             Train.DisplayListOfTrainsInDataGrid(trains, trainDataGrid);
         }
 
         private void sortByAverageSpeedStationButton_Checked(object sender, RoutedEventArgs e)
         {
-            trains = Train.SortTrainsByAverageSpeed(trains);
+            trains = Train.SortTrainsByAverageSpeed(trains);         
             Train.DisplayListOfTrainsInDataGrid(trains, trainDataGrid);
         }
 
