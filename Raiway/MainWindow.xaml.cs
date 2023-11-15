@@ -98,10 +98,11 @@ namespace Railway
 
         private void getTrainsThroughStationButton_Checked(object sender, RoutedEventArgs e)
         {
-            SearchTrainWindow searchTrainWindow = new SearchTrainWindow(trainDataGrid, trains);
+            List<Train> copyTrains = trains;
+            SearchTrainWindow searchTrainWindow = new SearchTrainWindow(trainDataGrid, copyTrains);
             searchTrainWindow.ButtonClickEvent += (s, args) =>
             {
-                trains = searchTrainWindow.getList();
+                copyTrains = searchTrainWindow.getList();
             };
             searchTrainWindow.Show();
         }

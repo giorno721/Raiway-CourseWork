@@ -156,7 +156,6 @@ namespace Railway
 
         public static List<Train> SearchThroughStations(List<Train> trains, string enteredText)
         {
-            List<Train> copyOfTrains = new List<Train>(trains);
             var result = new List<Train>();
             try
             {
@@ -181,12 +180,12 @@ namespace Railway
             catch (InvalidOperationException ex)
             {
                 System.Windows.MessageBox.Show(ex.Message, "Помилка", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
-                return copyOfTrains;
+                return null;
             }
             catch (Exception ex)
             {
                 System.Windows.MessageBox.Show("Помилка: " + ex.Message, "Помилка", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
-                return copyOfTrains;
+                return null;
             }
          
 

@@ -26,9 +26,10 @@ namespace Raiway
         public SearchTrainWindow(DataGrid dataGrid, List<Train> trains)
         {
             InitializeComponent();
-            _trainDataGrid = dataGrid;
+            _trainDataGrid = dataGrid;           
             _trains = trains;
         }
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             string stationName = StationTextBox.Text;         
@@ -37,8 +38,26 @@ namespace Raiway
         }
         private void SearchTrains(string stationName)
         {
+            string fileReadPath = System.IO.Path.Combine(@"C:\Users\Roman PC\Desktop\Палітєх 2-й курс\Курсач\Raiway\Raiway\bin\Debug", "trainsRead.txt");
+            FileManager fileManager = new FileManager(_trains, fileReadPath);
+            _trains = fileManager.ReadList();
+            List<Train> CopyTrains = _trains;
             _trains = Train.SearchThroughStations(_trains, stationName);
-            Train.DisplayListOfTrainsInDataGrid(_trains, _trainDataGrid);
+            if(_trains == null)
+            {            
+                _trains = CopyTrains;
+                return;
+            }
+            TrainsTextBox.Clear();
+            if (_trains != null)
+            {
+                foreach (Train tr in _trains)
+                {
+                    TrainsTextBox.Text += tr.Number + " ";
+                }
+            }
+            else
+                return;
         }
         public List<Train> getList()
         {

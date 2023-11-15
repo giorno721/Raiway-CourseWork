@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Raiway"
               mc:Ignorable="d"
-        Title="Search Trains" Height="210" Width="400"
+        Title="Search Trains" Height="310" Width="400"
         WindowStyle="SingleBorderWindow">
 
     <Window.Resources>
@@ -72,11 +72,11 @@
             <StackPanel Margin="20">
                 <TextBlock Text="Введіть назву станції:" Foreground="White" Margin="0,0,0,5" FontSize="16" FontFamily="Arial"/>
                 <TextBox  x:Name="StationTextBox" Style="{StaticResource TextBoxStyle}"/>
-              
-                <Button Content="Пошук" Style="{StaticResource ButtonStyle}" Width="150" Height="40" Click="Button_Click" />
+                <TextBlock Text="Номери потягів, що проходять через станцію:" Foreground="White" Margin="0,0,0,5" FontSize="16" FontFamily="Arial"/>
+                <TextBox x:Name="TrainsTextBox" Style="{StaticResource TextBoxStyle}" IsReadOnly="True"/>
             </StackPanel>
         </Border>
-
+        <Button Content="Пошук" Style="{StaticResource ButtonStyle}" Width="150" Height="40" VerticalAlignment="Bottom" Click="Button_Click" />
     </Grid>
 
 </Window>
