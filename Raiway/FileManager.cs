@@ -37,45 +37,65 @@ namespace Raiway
             {
                 string[] lines = System.IO.File.ReadAllLines(pathToRead);
 
-                foreach (string line in lines)
+                if (lines.Length == 0)
                 {
+                    MessageBox.Show("Файл порожній.", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return null;
+                }
+
+                for (int lineNumber = 0; lineNumber < lines.Length; lineNumber++)
+                {
+                    string line = lines[lineNumber];
                     string[] words = line.Split(' ');
                     Train train = new Train();
-                    train.Number = Convert.ToInt32(words[0]);
-                    train.StartStation = words[1];
-                    train.EndStation = words[2];
-                    train.IntermediateStations = words[3].Split(',').ToList();
-                    string[] departureDateTime = words[4].Split('.');
-                    train.DepartureTime = new DateTime(
-                        Convert.ToInt32(departureDateTime[0]),
-                        Convert.ToInt32(departureDateTime[1]),
-                        Convert.ToInt32(departureDateTime[2]),
-                        Convert.ToInt32(departureDateTime[3]),
-                        Convert.ToInt32(departureDateTime[4]),
-                        Convert.ToInt32(departureDateTime[5])
-                    );
 
-                    string[] arrivalDateTime = words[5].Split('.');
-                    train.ArrivalTime = new DateTime(
-                        Convert.ToInt32(arrivalDateTime[0]),
-                        Convert.ToInt32(arrivalDateTime[1]),
-                        Convert.ToInt32(arrivalDateTime[2]),
-                        Convert.ToInt32(arrivalDateTime[3]),
-                        Convert.ToInt32(arrivalDateTime[4]),
-                        Convert.ToInt32(arrivalDateTime[5])
-                    );
-                    train.Distance = Convert.ToDouble(words[6]);
-                    trains.Add(train);
+                    try
+                    {
+                        train.Number = Convert.ToInt32(words[0]);
+                        train.StartStation = words[1];
+                        train.EndStation = words[2];
+                        train.IntermediateStations = words[3].Split(',').ToList();
+
+                        string[] departureDateTime = words[4].Split('.');
+                        train.DepartureTime = new DateTime(
+                            Convert.ToInt32(departureDateTime[0]),
+                            Convert.ToInt32(departureDateTime[1]),
+                            Convert.ToInt32(departureDateTime[2]),
+                            Convert.ToInt32(departureDateTime[3]),
+                            Convert.ToInt32(departureDateTime[4]),
+                            Convert.ToInt32(departureDateTime[5])
+                        );
+
+                        string[] arrivalDateTime = words[5].Split('.');
+                        train.ArrivalTime = new DateTime(
+                            Convert.ToInt32(arrivalDateTime[0]),
+                            Convert.ToInt32(arrivalDateTime[1]),
+                            Convert.ToInt32(arrivalDateTime[2]),
+                            Convert.ToInt32(arrivalDateTime[3]),
+                            Convert.ToInt32(arrivalDateTime[4]),
+                            Convert.ToInt32(arrivalDateTime[5])
+                        );
+
+                        train.Distance = Convert.ToDouble(words[6]);
+                        trains.Add(train);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Помилка читання файлу у рядку {lineNumber + 1}: {ex.Message}", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return null;
+                    }
                 }
-              
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Помилка читання файлу: {ex.Message}", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return null;
             }
 
             return trains;
         }
+
+
 
         public void PrintList()
         {

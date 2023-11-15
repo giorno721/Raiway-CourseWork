@@ -180,6 +180,14 @@
                     <MenuItem Header="Відкрити" Foreground="Black" InputGestureText="Ctrl+ R" Click="openListFromFile_Click"/>
                     <MenuItem Header="Зберегти" Foreground="Black" InputGestureText="Ctrl+ S" Click="saveListToFile_Click"/>
                     <Separator/>
+                    <MenuItem Header="Сортувати за станцією відправлення" Foreground="Black" Click="sortByLeaveStation_Click"/>
+                    <MenuItem Header="Сортувати за середньою швидкістю" Foreground="Black" Click="sortByAverageSpeed_Click"/>
+                    <MenuItem Header="Визначити, які поїзди відправляються з заданої станції у заданий період часу" Foreground="Black" Click = "getTrainsLeaveStationButton_Click"/>
+                    <MenuItem Header="Визначити, які поїзди прибувають у задану станцію у заданий період часу" Foreground="Black" Click = "getTrainsArriveStationButton_Click"/>
+                    <MenuItem Header="Визначити поїзди, які курсують через задану станцію" Foreground="Black" Click = "getTrainsThroughStationButton_Click"/>
+                    <MenuItem Header="Згрупувати поїзди" Foreground="Black" Click = "groupTrainsButton_Click"/>
+                    <MenuItem Header="Додати новий маршрут" Foreground="Black" Click = "addTrainButton_Click"/>
+                    <Separator/>
                     <MenuItem Header="Вийти" Foreground="Black" InputGestureText="Esc" Click="exit_Click"/>
                 </MenuItem>
                 <MenuItem Header="Допомога" Style="{StaticResource MenuItemStyle}" Foreground="White" Click="info_Click">

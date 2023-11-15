@@ -185,5 +185,41 @@ namespace Railway
         {
             WindowState = WindowState.Minimized;
         }
+
+        private void sortByLeaveStation_Click(object sender, RoutedEventArgs e)
+        {
+            sortByStartStationButton_Checked(sender, e);
+        }
+
+        private void sortByAverageSpeed_Click(object sender, RoutedEventArgs e)
+        {
+            sortByAverageSpeedStationButton_Checked(sender, e);
+        }
+
+
+        private void getTrainsLeaveStationButton_Click(object sender, RoutedEventArgs e)
+        {
+            getTrainsLeaveStationButton_Checked(sender, e);
+        }
+
+        private void getTrainsArriveStationButton_Click(object sender, RoutedEventArgs e)
+        {
+            getTrainsArriveStationButton_Checked(sender, e);
+        }
+
+        private void getTrainsThroughStationButton_Click(object sender, RoutedEventArgs e)
+        {
+            getTrainsThroughStationButton_Checked(sender, e);
+        }
+
+        private void groupTrainsButton_Click(object sender, RoutedEventArgs e)
+        {
+            groupTrainsButton_Checked(sender, e);
+        }
+
+        private void addTrainButton_Click(object sender, RoutedEventArgs e)
+        {
+            addTrainButton_Checked(sender, e);
+        }
     }
 }
