@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,6 +18,7 @@ namespace Railway
         public DateTime ArrivalTime { get; set; }
         public double Distance { get; set; }
         public double AverageSpeed { get; set; }
+        // Конструктор
         public Train(int number, string startStation, string endStation, List<string> intermediateStations, DateTime departureTime, DateTime arrivalTime, double distance)
         {
             Number = number;
@@ -29,20 +31,20 @@ namespace Railway
             AverageSpeed = 0;
         }
         public Train() { }
-
+        // Вивід інформації про потяг
         public static void DisplayListOfTrainsInDataGrid(List<Train> trains, DataGrid trainDataGrid)
         {
             trainDataGrid.ItemsSource = null;
             trainDataGrid.ItemsSource = trains;
         }
-
+        // Отримання середньої швидкості потяга
         public static double getAverageSpeed(Train train)
         {
             train.AverageSpeed = train.Distance/((train.ArrivalTime - train.DepartureTime).TotalHours);
             train.AverageSpeed = Math.Round(train.AverageSpeed, 2);
             return train.AverageSpeed;
         }
-
+        // Сортування потягів за середньою швидкістю
         public static List<Train> SortTrainsByAverageSpeed(List<Train> trains)
         {
             try
@@ -63,6 +65,7 @@ namespace Railway
             }          
             return trains;
         }
+        // Пошук потягів за відбуттям зі станції за вказаний час
         public static List<Train> SearchLeaveTrainsThroughTime(List<Train> trains, string enteredText, DateTime startDateTime, DateTime endDateTime)
         {
             List<Train> copyOfTrains = trains;
@@ -73,7 +76,7 @@ namespace Railway
                 {
                     throw new InvalidOperationException("Розклад пустий!");
                 }
-                if(enteredText == null || enteredText == "" || enteredText == " ")
+                if (enteredText == null || enteredText == "" || enteredText == " ")
                 {
                     throw new InvalidOperationException("Поле початкової станції пусте!");
                 }
@@ -81,7 +84,7 @@ namespace Railway
                 {
                     throw new InvalidOperationException("Поле дати пусте!");
                 }
-                if (startDateTime == (DateTime)endDateTime || startDateTime > endDateTime) 
+                if (startDateTime == (DateTime)endDateTime || startDateTime > endDateTime)
                 {
                     throw new InvalidOperationException("Невірно введено дату!");
                 }
@@ -90,9 +93,9 @@ namespace Railway
                               train.DepartureTime >= startDateTime &&
                               train.DepartureTime <= endDateTime)
               .ToList();
-                if(result.Count == 0) 
+                if (result.Count == 0)
                 {
-                    throw new InvalidOperationException("Потягів із такими параметрами немає!");                
+                    throw new InvalidOperationException("Потягів із такими параметрами немає!");
                 }
             }
             catch (InvalidOperationException ex)
@@ -107,6 +110,7 @@ namespace Railway
             }
             return result;
         }
+        // Пошук потягів за прибуттям на станцію у вказаний час
         public static List<Train> SearchArriveTrainsThroughTime(List<Train> trains, string enteredText, DateTime startDateTime, DateTime endDateTime)
         {
             List<Train> copyOfTrains = new List<Train>(trains);
@@ -153,7 +157,7 @@ namespace Railway
             }
             return result;
         }
-
+        // Пошук потягів за станціями
         public static List<Train> SearchThroughStations(List<Train> trains, string enteredText)
         {
             var result = new List<Train>();
@@ -191,6 +195,7 @@ namespace Railway
 
             return result;
         }
+        // Групування потягів
         public static List<Train> GroupTrains(List<Train> trains)
         {
             List<Train> groupedTrains = new List<Train>();
@@ -248,10 +253,11 @@ namespace Railway
             return groupedTrains;
         }
 
-
+        // Отримання списку потягів
         public static List<Train> getListOfTrains(List<Train> trains)
         {
             return trains;
         }
+
     }
 }

@@ -23,12 +23,14 @@ namespace Raiway
         private DataGrid _trainDataGrid;
         private List<Train> _trains;
         public event EventHandler ButtonClickEvent;
+        // Ініціалізація вікна пошуку поїздів, що відправляються
         public SearchLeaveTrainWindow(DataGrid trainDataGrid, List<Train> trains)
         {
             InitializeComponent();
             _trainDataGrid = trainDataGrid;
             _trains = trains;
         }
+        // Кнопка пошуку поїздів, що відправляються
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             string stationName = StationTextBox.Text;
@@ -37,12 +39,13 @@ namespace Raiway
             SearchTrains(stationName, startDate, endDate);
             ButtonClickEvent?.Invoke(this, EventArgs.Empty);
         }
-
+        // Пошук поїздів, що відправляються
         private void SearchTrains(string stationName, DateTime startDate, DateTime endDate)
         {
             _trains = Train.SearchLeaveTrainsThroughTime(_trains, stationName, startDate, endDate);
             Train.DisplayListOfTrainsInDataGrid(_trains, _trainDataGrid);
         }
+        // Повернення списку поїздів, що відправляються
         public List<Train> getList()
         {
             return _trains;

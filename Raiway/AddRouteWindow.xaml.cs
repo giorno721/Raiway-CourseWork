@@ -26,7 +26,6 @@ namespace Raiway
         public AddRouteWindow()
         {
             InitializeComponent();
-
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -54,7 +53,7 @@ namespace Raiway
             string startStation = StartStationTextBox.Text;
             string endStation = EndStationTextBox.Text;
 
-            // Розділіть проміжні станції за допомогою пробілу та додайте їх до списку
+            // Перевірка на відсутність проміжних станцій
             List<string> intermediateStations = new List<string>(IntermediateStationsTextBox.Text.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries));
             if (!DateTime.TryParse(DepartureDatePicker.SelectedDate?.ToString(), out DateTime departureDate))
             {
@@ -101,8 +100,6 @@ namespace Raiway
             }
 
             // Перевірка, щоб дата прибуття була не раніше за дату виїзду
-          
-
             DateTime departureTime = new DateTime(
                 departureDate.Year,
                 departureDate.Month,
@@ -111,8 +108,6 @@ namespace Raiway
                 departureMinute,
                 departureSecond
             );
-
-         
 
             DateTime arrivalTime = new DateTime(
                 arrivalDate.Year,
@@ -149,8 +144,8 @@ namespace Raiway
             MessageBox.Show("Новий потяг успішно додано!", "Успіх", MessageBoxButton.OK, MessageBoxImage.Information);
             this.Close();
 
+            // Виклик події для оновлення інтерфейсу
             ButtonClickEvent?.Invoke(this, EventArgs.Empty);
         }
-     
     }
 }

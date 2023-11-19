@@ -23,19 +23,21 @@ namespace Raiway
         private DataGrid _trainDataGrid;
         private List<Train> _trains;
         public event EventHandler ButtonClickEvent;
+        // Ініціалізація вікна пошуку поїздів
         public SearchTrainWindow(DataGrid dataGrid, List<Train> trains)
         {
             InitializeComponent();
             _trainDataGrid = dataGrid;           
             _trains = trains;
         }
-
+        // Кнопка пошуку поїздів
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             string stationName = StationTextBox.Text;         
             SearchTrains(stationName);
             ButtonClickEvent?.Invoke(this, EventArgs.Empty);
         }
+        // Пошук поїздів
         private void SearchTrains(string stationName)
         {
             string fileReadPath = System.IO.Path.Combine(@"C:\Users\Roman PC\Desktop\Палітєх 2-й курс\Курсач\Raiway\Raiway\bin\Debug", "trainsRead.txt");
@@ -59,6 +61,7 @@ namespace Raiway
             else
                 return;
         }
+        // Повернення списку поїздів
         public List<Train> getList()
         {
             return _trains;

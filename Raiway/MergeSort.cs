@@ -9,6 +9,7 @@ namespace Railway
 {
     internal class MergeSort
     {
+        // Сортування злиттям
         public static List<Train> Sort(List<Train> trains)
         {
             if (trains.Count <= 1)
@@ -32,7 +33,7 @@ namespace Railway
             return Merge(left, right);
         }
 
-
+        // Злиття
         private static List<Train> Merge(List<Train> left, List<Train> right)
         {
             List<Train> result = new List<Train>();

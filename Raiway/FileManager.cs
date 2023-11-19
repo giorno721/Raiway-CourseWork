@@ -1,4 +1,5 @@
-﻿using Railway;
+﻿using Newtonsoft.Json;
+using Railway;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,7 +29,7 @@ namespace Raiway
         {
             this.trains = trains;
         }
-
+        // Зчитування з файлу
         public List<Train> ReadList()
         {
             List<Train> trains = new List<Train>();
@@ -96,7 +97,7 @@ namespace Raiway
         }
 
 
-
+        // Запис у файл
         public void PrintList()
         {
             try
